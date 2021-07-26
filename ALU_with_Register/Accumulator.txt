@@ -1,0 +1,61 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.std_logic_unsigned.all;
+
+entity Accumulator is
+port(
+signal CLK : in STD_LOGIC;
+signal RST : in STD_LOGIC;
+signal B : in std_logic_vector(7 downto 0);
+signal OPCODE : in std_logic_vector(2 downto 0);
+signal atoq : inout std_logic_vector(7 downto 0);
+signal dtoresult : inout std_logic_vector(7 downto 0));
+end Accumulator;
+
+architecture Behavioral of Accumulator is
+
+
+
+component Registers is
+port (
+d : in STD_LOGIC_vector(7 downto 0);
+clk : in STD_LOGIC;
+rst : in STD_LOGIC;
+q : out STD_LOGIC_vector( 7 downto 0 ));
+end component;
+
+component ALU is
+port (
+ a : in std_logic_vector(7 downto 0);
+ b : in std_logic_vector(7 downto 0);
+ result : out std_logic_vector(7 downto 0);
+ opcode : in std_logic_vector(2 downto 0));
+end component; 
+
+
+
+
+begin
+
+    dut:Registers port map(
+     q => atoq,
+     d => dtoresult,
+     clk => CLK,
+     rst => RST 
+    );
+
+    duut:ALU port map (
+     a => atoq,
+     b => B,
+     result => dtoresult,
+     opcode => OPCODE
+    );
+    
+--    process
+--    begin
+    
+--    A <= Q;
+--    D <= RESULT; 
+    
+--    end process;  
+end Behavioral;

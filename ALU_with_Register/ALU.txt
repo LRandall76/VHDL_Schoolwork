@@ -1,0 +1,38 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity ALU is
+port (
+ a : in std_logic_vector(7 downto 0);
+ b : in std_logic_vector(7 downto 0);
+ result : out std_logic_vector(7 downto 0);
+ opcode : in std_logic_vector(2 downto 0));
+end ALU; 
+
+
+architecture Behavioral of ALU is
+signal apb, aab, am2, asb, aob, ad2 : std_logic_vector (7 downto 0);
+
+
+begin
+apb <= a + b;
+aab <= a AND b;
+am2 <= a(6 downto 0) & '0';
+asb <= a - b;
+aob <= a OR b;
+ad2 <= '0' & a(7 downto 1);
+
+--MUX
+
+result <= "00000000" when opcode = "000" else
+              apb when opcode = "001" else
+              aab when opcode = "010" else
+              am2 when opcode = "011" else
+              a   when opcode = "100" else
+              asb when opcode = "101" else
+              aob when opcode = "110" else
+              ad2 when opcode = "111" else
+              "00000000";
+
+end Behavioral;     
